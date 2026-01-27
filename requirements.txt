@@ -3,3 +3,4 @@ discord
 aiosqlite
 python-dotenv
 asyncio
+aiohttp
