@@ -113,9 +113,10 @@ class Levels(commands.Cog):
             member = ctx.guild.get_member(user_id)
             name = member.display_name if member else f"User {user_id}"
             description += f"**{index}. {name}** — Lvl {level} ({xp} XP)\n"
-        description+="{self.footer_text(ctx)}"
         embed.description = description
-        await ctx.send(embed=embed)
+        execution_line = f"\n{self.footer_text(ctx)}"
+        
+        await ctx.send(content=execution_line, embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Levels(bot))
