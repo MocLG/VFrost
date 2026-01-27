@@ -5,8 +5,9 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    def footer_text(self, ctx):
-        return f"?{ctx.command} ▪ Executed by {ctx.author}"
+    def get_footer(self, ctx):
+        """Standard footer using display_name for 'MocLG' branding."""
+        return f"?{ctx.command} ▪ Executed by {ctx.author.display_name}"
 
     @commands.command(name="help")
     async def help_command(self, ctx):
@@ -45,26 +46,26 @@ class Help(commands.Cog):
 
         # 🎫 Tickets Section
         ticket_commands = (
-            "* `?setup_tickets`: Embed with a ticket button (Admin only).\n"
+            "* `?setup_tickets`: Create a ticket system (Admin only).\n"
             "* `?close`: Closes the current ticket channel."
         )
         embed.add_field(name="🎫 Tickets", value=ticket_commands, inline=False)
 
         # 🎮 Fun Section
         fun_commands = (
-            "* `?roll [XdX]`: Rolls dice (e.g., 2d20). Default 1d6.\n"
+            "* `?roll [XdX]`: Rolls dice (e.g., 2d20).\n"
             "* `?coinflip`: Flips a coin (Heads/Tails).\n"
             "* `?8ball <question>`: Magic 8-ball response.\n"
             "* `?meme`: Random meme from Reddit.\n"
-            "* `?slap <member>`: Sends a fun slap interaction.\n"
-            "* `?hug <member>`: Sends a fun hug interaction."
+            "* `?slap <member>`: Fun slap interaction.\n"
+            "* `?hug <member>`: Fun hug interaction."
         )
         embed.add_field(name="🎮 Fun", value=fun_commands, inline=False)
 
         # 🛠️ Utility Section
         util_commands = (
             "* `?ping`: Shows the bot's current latency.\n"
-            "* `?uptime`: Displays how long the bot has been live.\n"
+            "* `?uptime`: Displays bot runtime and platform.\n"
             "* `?serverinfo`: Detailed server information.\n"
             "* `?userinfo [member]`: Detailed user information.\n"
             "* `?avatar [member]`: Shows user's profile picture."
@@ -72,12 +73,12 @@ class Help(commands.Cog):
         embed.add_field(name="🛠️ Utility", value=util_commands, inline=False)
 
         # ❓ General Section
-        general_commands = "* `?help`: Displays this menu."
-        embed.add_field(name="❓ General", value=general_commands, inline=False)
+        embed.add_field(name="❓ General", value="* `?help`: Displays this menu.", inline=False)
 
-        execution_line = f"\n{self.footer_text(ctx)}"
+        # Final Touch: Consistent Footer
+        embed.set_footer(text=self.get_footer(ctx))
         
-        await ctx.send(content=execution_line, embed=embed)
+        await ctx.send(embed=embed)
 
 async def setup(bot):
     bot.help_command = None
